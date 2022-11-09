@@ -207,6 +207,87 @@ bool isSumTree(node* root)
         return SumTree(root).first;
 }
 
+//----Zig-Zag Tree Traversal----------------------
+void zigzagTraversal(node*root)
+{
+    if(root == NULL)
+        return ;
+    queue<node*> q;
+    q.push(root);
+    vector<int> result;
+    bool leftToRight = true;
+    while(!q.empty())
+    {
+        int size = q.size();
+        vector<int> ans(size);
+        for(int i=0;i<size;i++)
+        {
+            node* frontNode = q.front();
+            q.pop();
+            int index = leftToRight ? i : size - i - 1;
+            ans[index] = frontNode->data;
+            if(frontNode->left)
+                q.push(frontNode->left);
+            if(frontNode->right)
+                q.push(frontNode->right);
+        }
+        for(auto i: ans)
+            result.push_back(i);
+        leftToRight = !leftToRight;
+    }
+    for(auto i:result)
+        cout<<i<<" ";
+    cout<<endl;
+}
+
+//----Boundary Traversal of Tree-----------------
+void leftTree(node* root, vector<int> &ans)
+{
+    if( root == NULL )
+        return;
+    if(root->right && root->left) //--avoid leaf node to print
+        ans.push_back(root->data);
+    if(root->left)
+        leftTree(root->left, ans);
+    else if(root->right)
+        leftTree(root->right, ans);
+}
+void leafNodes(node* root, vector<int> &ans)
+{
+    if(root == NULL)
+        return;
+    leafNodes(root->left, ans);
+    leafNodes(root->right, ans);
+    if(root->right == NULL && root->left == NULL)
+        ans.push_back(root->data);
+}
+void rightTree(node* root, vector<int> &ans)
+{
+    if(root == NULL)
+        return;
+    if(root->right)
+        rightTree(root->right, ans);
+    else if(root->left)
+        rightTree(root->left, ans);
+    if(root->right && root->left) //--avoid leaf node to print
+        ans.push_back(root->data);
+}
+void boundaryTraversal(node* root)
+{
+    if(root == NULL)
+        return;
+    vector<int> ans;
+    ans.push_back(root->data); //--root node--
+
+    leftTree(root->left, ans); //--left boundary
+    leafNodes(root, ans); //--bottom(leaf node) boundary
+    rightTree(root->right, ans);//--right boundary
+    
+    for(auto i: ans)
+        cout<<i<<" ";
+    cout<<endl;
+}
+
 //------  1 2 3 4 5 6 7 -1 -1 -1 -1 8 -1 -1 -1 -1 -1 --------
 //------  1 2 3 4 5 -1 -1 -1 -1 -1 -1  ------------
 int main()
@@ -238,5 +319,7 @@ int main()
     cout<<checkIdenticalTrees(r1, r2)<<endl;
     //-------------
 
+    zigzagTraversal(root);
+    boundaryTraversal(root);
     return 0;
 }
