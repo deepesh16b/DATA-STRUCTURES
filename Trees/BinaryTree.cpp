@@ -427,6 +427,7 @@ int main()
     zigzagTraversal(root);
     boundaryTraversal(root);
     verticalTraversal(root);
+    topViewOfTree( root);
     bottomViewOfTree(root);
     return 0;
 }
