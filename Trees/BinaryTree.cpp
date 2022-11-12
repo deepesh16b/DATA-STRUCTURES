@@ -334,45 +334,65 @@ void verticalTraversal(node* root)
 
 }
 
-//---Bottom View of Tree -----------
-void bottomViewOfTree(node* root)
+//------ Top view of tree--------------
+void topViewOfTree( node* root)
 {
     vector<int> ans;
     if(root == NULL)
         return;
-    map<int, int > mapping; 
-    //--hd = horizontal-distance, ans = final answer list
-    //--map<hd, int > = mapping
-    queue< pair< node*, int > > q; 
-    //--queue< pair(node* ,hd) >
-    q.push(make_pair(root,  0 ) );
-
-    while( !q.empty())
-    {
-        pair< node*, int>  temp = q.front();
+    queue< pair< int, node*>> q;
+    map< int, int> mapping; // <hd, value>
+    q.push(make_pair(0, root));
+    while(!q.empty())
+    { 
+        pair<int, node*> temp = q.front();
         q.pop();
-        node* frontNode = temp.first;
-        int hd = temp.second;
-       
-
-        mapping[hd]= frontNode->data;
-
+        int hd= temp.first;
+        node* frontNode= temp.second;
+        if(mapping.find(hd) == mapping.end())
+            mapping [hd] = frontNode->data;
         if(frontNode->left)
-            q.push( make_pair( frontNode->left, hd-1 ) );
+            q.push(make_pair(hd-1, frontNode->left));
         if(frontNode->right)
-            q.push( make_pair( frontNode->right, hd+1 )  );
-        
+            q.push(make_pair(hd+1, frontNode->right));
+ 
     }
     for(auto i: mapping)
-    {
-                ans.push_back(i.second);
-    }
-    for(auto i:ans)
+        ans.push_back(i.second);
+    for(auto i: ans)
         cout<<i<<" ";
     cout<<endl;
-
 }
 
+//-----bottom View Of Tree--------------------
+void bottomViewOfTree( node* root)
+{
+    vector<int> ans;
+    if(root == NULL)
+        return;
+    queue< pair< int, node*>> q;
+    map< int, int> mapping; // <hd, value>
+    q.push(make_pair(0, root));
+    while(!q.empty())
+    { 
+        pair<int, node*> temp = q.front();
+        q.pop();
+        int hd= temp.first;
+        node* frontNode= temp.second;
+        // if(mapping.find(hd) == mapping.end())
+            mapping [hd] = frontNode->data;
+        if(frontNode->left)
+            q.push(make_pair(hd-1, frontNode->left));
+        if(frontNode->right)
+            q.push(make_pair(hd+1, frontNode->right));
+ 
+    }
+    for(auto i: mapping)
+        ans.push_back(i.second);
+    for(auto i: ans)
+        cout<<i<<" ";
+    cout<<endl;
+}
 //------  1 2 3 4 5 6 7 -1 -1 -1 -1 8 -1 -1 -1 -1 -1 --------
 //------  1 2 3 4 5 -1 -1 -1 -1 -1 -1  ------------
 int main()
