@@ -419,6 +419,26 @@ void maxSumOfAdjacentNodes(node* root)
     pair<int, int> ans = mainMaxSumOfAdjacentNodes(root, true) ;
     cout<<"Max Sum of adjacent nodes: "<< max(ans.first, ans.second);
 }
+void sumOfLongestBloodlineOfTree(node*root, pair<int, int> curr, pair<int, int>& ans)
+{
+    if(root == NULL)
+    {
+        return ans;
+    }
+    pair<int, int> curr, left, right;
+    curr.first += root->data;
+    curr.second ++;
+    left = sumOfLongestBloodlineOfTree(root->left, curr, ans);
+    right = sumOfLongestBloodlineOfTree(root->right, curr, ans);
+    
+}
+void bloodline(node*root)
+{
+    pair<int, int> ans = make_pair(0,0);
+    sumOfLongestBloodlineOfTree(root, ans);
+    cout<<"Sum: "<<ans.first<<endl;
+}
+
 //------  1 2 3 4 5 6 7 -1 -1 -1 -1 8 -1 -1 -1 -1 -1 --------
 //------  1 2 3 4 5 -1 -1 -1 -1 -1 -1  ------------
 int main()
