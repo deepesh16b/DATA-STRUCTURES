@@ -506,6 +506,6 @@ int main()
     bottomViewOfTree(root);
     
     maxSumOfAdjacentNodes(root);
-    sumOfLongestPath(node*root)
+    sumOfLongestPath(root)
     return 0;
 }
