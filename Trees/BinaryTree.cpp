@@ -393,6 +393,32 @@ void bottomViewOfTree( node* root)
         cout<<i<<" ";
     cout<<endl;
 }
+pair<int, int> mainMaxSumOfAdjacentNodes(node* root, bool odd)
+{
+    if(root == NULL)
+    {
+        pair<int, int> ans = make_pair(0,0) ;
+        return ans;
+    }
+    pair<int, int> ans = make_pair(0,0) ;
+    pair<int, int> left, right;
+    left = mainMaxSumOfAdjacentNodes(root->left, !odd);
+    right = mainMaxSumOfAdjacentNodes(root->right, !odd);
+    if(odd){
+        ans.first = root->data + left.first + right.first;
+        ans.second = right.second + left.second;
+    }
+    else{
+        ans.first =  left.first + right.first;
+        ans.second = root->data + right.second + left.second;   
+    }
+    return ans;
+}
+void maxSumOfAdjacentNodes(node* root)
+{
+    pair<int, int> ans = mainMaxSumOfAdjacentNodes(root, true) ;
+    cout<<"Max Sum of adjacent nodes: "<< max(ans.first, ans.second);
+}
 //------  1 2 3 4 5 6 7 -1 -1 -1 -1 8 -1 -1 -1 -1 -1 --------
 //------  1 2 3 4 5 -1 -1 -1 -1 -1 -1  ------------
 int main()
@@ -429,5 +455,7 @@ int main()
     verticalTraversal(root);
     topViewOfTree( root);
     bottomViewOfTree(root);
+    
+    maxSumOfAdjacentNodes(root);
     return 0;
 }
