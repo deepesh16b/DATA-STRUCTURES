@@ -438,7 +438,36 @@ void bloodline(node*root)
     sumOfLongestBloodlineOfTree(root, ans);
     cout<<"Sum: "<<ans.first<<endl;
 }
-
+void sumOfLongestBloodlineOfTree(node*root, pair<int, int> curr, pair<int, int>& ans)
+{
+    if(root == NULL)
+    {
+        return ;
+    }
+    curr.first += root->data;
+    curr.second++;
+    sumOfLongestBloodlineOfTree(root->left, curr, ans);
+    sumOfLongestBloodlineOfTree(root->right, curr, ans);
+    if(root->left == NULL && root->right== NULL)
+    {
+        if(curr.second>ans.second)
+        {
+            ans.second = curr.second;
+            ans.first = curr.first;
+        }
+        else if(curr.second==ans.second)
+        {
+            ans.first = max (curr.first,ans.first);
+        }
+    }
+}
+void sumOfLongestPath(node*root)
+{
+    pair<int, int> ans = make_pair(0,0);
+    pair<int, int> curr = make_pair(0,0);
+    sumOfLongestBloodlineOfTree(root,curr, ans);
+    cout<<"Sum of nodes of longest path: "<<ans.first<<endl;
+}
 //------  1 2 3 4 5 6 7 -1 -1 -1 -1 8 -1 -1 -1 -1 -1 --------
 //------  1 2 3 4 5 -1 -1 -1 -1 -1 -1  ------------
 int main()
@@ -477,5 +506,6 @@ int main()
     bottomViewOfTree(root);
     
     maxSumOfAdjacentNodes(root);
+    sumOfLongestPath(node*root)
     return 0;
 }
